@@ -163,7 +163,7 @@ def formatGraph(graph, graphNum):
     graph.SetLineColor(graphColor)
     graph.SetMarkerColor(graphColor)
     graph.SetLineStyle(lineStyle)
-    graph.SetLineWidth(3)
+    graph.SetLineWidth(4)
 
 def plotPerformanceCurves(graphs, ordering,massWPs,tau21WPs, fTitle, fXAxisTitle, fYAxisTitle, fExtraInfo, fOutputFile, fXmin, fXmax, fYmin, fYmax, fLogy=0):
 

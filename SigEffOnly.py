@@ -30,16 +30,11 @@ def get_palette(mode):
 
  palette = {}
  palette['gv'] = [] 
- 
- 
  # colors = ['#FF420E','#003B46','#80BD9E','#FF420E','#003B46','#80BD9E','#336B87','#763626','#003B46','#66A5AD']
  colors = ['#FF420E','#80BD9E','#FF420E','#80BD9E','#336B87','#336B87','#763626','#003B46','#66A5AD']
-
  for c in colors:
   palette['gv'].append(c)
- 
  return palette[mode]
- 
  
 palette = get_palette('gv')
 col = TColor()

@@ -23,6 +23,21 @@ B = 0.12*H_ref
 L = 0.12*W_ref
 R = 0.04*W_ref
 
+
+def get_palette(mode):
+
+ palette = {}
+ palette['gv'] = [] 
+ # colors = ['#FF420E','#003B46','#80BD9E','#FF420E','#003B46','#80BD9E','#336B87','#763626','#003B46','#66A5AD']
+ colors = ['#FF420E','#80BD9E','#336B87','#336B87','#763626','#003B46','#66A5AD']
+ for c in colors:
+  palette['gv'].append(c)
+ return palette[mode]
+ 
+palette = get_palette('gv')
+col = TColor()
+
+
 def get_line(xmin,xmax,y,style):
 
    line = TLine(xmin,y,xmax,y)
@@ -64,7 +79,7 @@ def get_ratio(hdata,histsum):
    return ratio
 
 
-markerStyle = [20,24,23]
+markerStyle = [20,26,23]
 
 rebin = 2
 path = "/mnt/t3nfs01/data01/shome/thaarres/EXOVVAnalysisRunII/AnalysisOutput/SamplesForWtagEfficiencies/"
@@ -72,34 +87,33 @@ filenames = ["ExoDiBosonAnalysis.QCD_pTBinned_pythia8_76X_mjj1200.root", "ExoDiB
 
 histos = ["numPT_mjtau21","numPT_mjtau21_puppi","numPT_mjDDT_puppi"]
 dens   = ["denPT"        ,"denPT_puppi"        ,"denPT_puppi"]
-color = [kGreen+3,kGreen-6,kGreen]
-lineStyle = [1,3,8]
+color = [col.GetColor(palette[0]),col.GetColor(palette[1]),col.GetColor(palette[2])]
+lineStyle = [3,1,8]
 
 
 for filename in filenames:
   
-  l = TLegend(0.3205312,0.5870035,0.5192288,0.8838515)
+  l = TLegend(0.5179469,0.5114421,0.8076608,0.9036413)
+   
   
   filetmpMC = TFile.Open(path+filename,"READ")
-  legend = ["QCD Pythia8, Pruning + #tau_{21}","QCD Pythia8, PUPPI SD + #tau_{21}","QCD Pythia8, PUPPI SD + DDT"]
+  legend = ["QCD Pythia8, M_{Pruned}^{CHS} + #tau_{21}","QCD Pythia8, M_{Softdrop}^{PUPPI} + #tau_{21}","QCD Pythia8, M_{Softdrop}^{PUPPI} + #tau_{21}^{DDT}"]
   if filename.find("herwig") != -1:
-    legend = ["QCD Herwig, Pruning + #tau_{21}","QCD Herwig, PUPPI SD + #tau_{21}","QCD Herwig, PUPPI SD + DDT"]
+    legend = ["QCD Herwig, M_{Pruned}^{CHS} + #tau_{21}","QCD Herwig, M_{Softdrop}^{PUPPI} + #tau_{21}","QCD Herwig, M_{Softdrop}^{PUPPI} + #tau_{21}^{DDT}"]
   if filename.find("madgraph") != -1:
-    legend = ["QCD Pythia8+Madgraph, Pruning + #tau_{21}","QCD Pythia8+Madgraph, PUPPI SD + #tau_{21}","QCD Pythia8+Madgraph, PUPPI SD + DDT"]
+    l = TLegend(0.35179469,0.5114421,0.5076608,0.9036413)
+    legend = ["QCD Madgraph+Pythia8, M_{Pruned}^{CHS} + #tau_{21}","QCD Madgraph+Pythia8, M_{Softdrop}^{PUPPI} + #tau_{21}","QCD Madgraph+Pythia8, M_{Softdrop}^{PUPPI} + #tau_{21}^{DDT}"]
        
   mg =  TMultiGraph()
   histolistMC = []
   histolistDATA = []
   
-  l.SetTextSize(0.043)
-  l.SetLineColor(0)
-  l.SetShadowColor(0)
-  l.SetLineStyle(1)
-  l.SetLineWidth(1)
+  l.SetBorderSize(0)
   l.SetFillColor(0)
   l.SetFillStyle(0)
-  l.SetMargin(0.35)
-  addInfo = TPaveText(0.6845965,0.3369315,0.9755922,0.5456246,"NDC")
+  l.SetTextFont(42)
+  l.SetTextSize(0.040)
+  addInfo = TPaveText(0.6333197,0.3351324,0.9243155,0.486255,"NDC")
   addInfo.SetFillColor(0)
   addInfo.SetLineColor(0)
   addInfo.SetFillStyle(0)
@@ -109,9 +123,9 @@ for filename in filenames:
   addInfo.SetTextAlign(12)
   # addInfo.AddText("W-jet")
   addInfo.AddText("AK R=0.8")
-  addInfo.AddText("M_{jj} > 1.2 TeV")
-  addInfo.AddText("p_{T} > 200 GeV")
-  addInfo.AddText("|#eta| #leq 2.4, |#Delta#eta_{jj}| #leq 1.3")
+  addInfo.AddText("M_{jj} > 1.2 TeV, |#Delta#eta_{jj}| #leq 1.3")
+  addInfo.AddText("p_{T} > 200 GeV, |#eta| #leq 2.4")
+
   i = -1 
   for h in histos:
     i +=1 
@@ -125,21 +139,20 @@ for filename in filenames:
     # g.SetMarkerColor(color[i])
     # g.SetName("g%i"%i)
     numMC.SetLineColor(color[i])
-    numMC.SetLineWidth(2)
     # g.SetMarkerSize(2)
     numMC.SetLineStyle(lineStyle[i])
-    numMC.SetLineWidth(3)
+    numMC.SetLineWidth(4)
     numMC.SetMarkerStyle(markerStyle[i])
     numMC.SetMarkerColor(color[i])
     numMC.SetMarkerSize(2)
     # mg.Add(g)
     histolistMC.append(numMC)
-    l.AddEntry(numMC,"%s"%(legend[i]), "lp" )  
+    l.AddEntry(numMC,"%s"%(legend[i]), "l" )  
 
   filenameDATA = "ExoDiBosonAnalysis.Data_mjj1200.root"
   filetmp = TFile.Open(path+filenameDATA,"READ")
 
-  legend = ["Data, Pruning + #tau_{21}","Data, PUPPI softdrop + #tau_{21}","Data, PUPPI softdrop + DDT"]
+  legend = ["Data, M_{Pruned}^{CHS} + #tau_{21}","Data, M_{Softdrop}^{PUPPI} + #tau_{21}","Data, M_{Softdrop}^{PUPPI} + #tau_{21}^{DDT}"]
 
   i = -1 
   for h in histos:
@@ -152,9 +165,10 @@ for filename in filenames:
     g.Divide(num,den)
     g.SetName("g%i"%i)
     # g.SetLineColor(color[i])
-    # g.SetLineWidth(2)
-    g.SetMarkerSize(2)
+    g.SetLineWidth(3)
+    g.SetMarkerSize(2.3)
     g.SetMarkerStyle(markerStyle[i])
+    # g.SetLineStyle(lineStyle[i])
     mg.Add(g) 
     l.AddEntry(g,"%s"%(legend[i]), "p" )   
     num2 = copy.copy(num) 
@@ -266,22 +280,25 @@ for filename in filenames:
   rh1.SetLineColor(color[0])
   rh1.SetMarkerColor(color[0])
   rh1.SetMarkerStyle(markerStyle[0])
-  rh1.SetLineStyle(lineStyle[0])
-  rh1.SetMarkerSize(2)
+  # rh1.SetLineStyle(lineStyle[0])
+  rh1.SetLineWidth(3)
+  rh1.SetMarkerSize(2.3)
   rh2 = get_ratio(histolistDATA[1],histolistMC[1])
   rh2.Draw("Lsame")
   rh2.SetLineColor(color[1])
   rh2.SetMarkerColor(color[1])
   rh2.SetMarkerStyle(markerStyle[1])
-  rh2.SetMarkerSize(2)
-  rh2.SetLineStyle(lineStyle[1])
+  rh2.SetMarkerSize(2.3)
+  # rh2.SetLineStyle(lineStyle[1])
+  rh2.SetLineWidth(3)
   rh3 = get_ratio(histolistDATA[2],histolistMC[2])
   rh3.Draw("Lsame")
   rh3.SetLineColor(color[2])
   rh3.SetMarkerColor(color[2])
   rh3.SetMarkerStyle(markerStyle[2])
-  rh3.SetLineStyle(lineStyle[2])
-  rh3.SetMarkerSize(2)
+  # rh3.SetLineStyle(lineStyle[2])
+  rh3.SetLineWidth(3)
+  rh3.SetMarkerSize(2.3)
   li = get_line(200,1800,1,1)
   li.Draw()
   vFrame2.GetYaxis().SetNdivisions(005)
