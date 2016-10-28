@@ -31,8 +31,9 @@ def get_palette(mode):
  palette = {}
  palette['gv'] = [] 
  
- colors = ['#762a83','#9970ab','#de77ae','#a6dba0','#5aae61','#1b7837','#00441b','#92c5de','#4393c3','#2166ac','#053061']
- colors = ['#FF420E','#003B46','#80BD9E','#FF420E','#003B46','#80BD9E','#336B87','#763626','#003B46','#66A5AD']
+ 
+ # colors = ['#FF420E','#003B46','#80BD9E','#FF420E','#003B46','#80BD9E','#336B87','#763626','#003B46','#66A5AD']
+ colors = ['#FF420E','#80BD9E','#FF420E','#80BD9E','#336B87','#336B87','#763626','#003B46','#66A5AD']
 
  for c in colors:
   palette['gv'].append(c)
@@ -45,15 +46,15 @@ col = TColor()
  
 
 path = "/mnt/t3nfs01/data01/shome/thaarres/EXOVVAnalysisRunII/AnalysisOutput/SamplesForWtagEfficiencies/"
-filename = "ExoDiBosonAnalysis.W_all_new.root"
+filename = "ExoDiBosonAnalysis.W_all.root"
 filetmp = TFile.Open(path+filename,"READ")
 
 
-legend = ["65 GeV < Pruned m_{j} < 105 GeV","65 GeV < PUPPI SD m_{j} < 105 GeV","65 GeV < Pruned m_{j} < 105 GeV + #tau_{21} #leq 0.45","65 GeV < PUPPI SD m_{j} < 105 GeV + PUPPI #tau_{21} #leq 0.4","65 GeV < PUPPI SD m_{j} < 105 GeV + DDT #leq 0.52"]
-legend = ["65 GeV < Pruned m_{j} < 105 GeV","65 GeV < PUPPI SD m_{j} < 105 GeV","65 GeV < PUPPI pruned m_{j} < 105 GeV","65 GeV < Pruned m_{j} < 105 GeV + #tau_{21} #leq 0.45","65 GeV < PUPPI SD m_{j} < 105 GeV + PUPPI #tau_{21} #leq 0.4","65 GeV < PUPPI pruned m_{j} < 105 GeV + PUPPI #tau_{21} #leq 0.4","65 GeV < PUPPI SD m_{j} < 105 GeV + DDT #leq 0.52"]
+legend = ["65 GeV < M_{Pruned}^{CHS} < 105 GeV","65 GeV < M_{Softdrop}^{PUPPI} < 105 GeV","65 GeV < M_{Pruned}^{CHS} < 105 GeV + #tau_{21} #leq 0.45","65 GeV < M_{Softdrop}^{PUPPI} < 105 GeV + #tau_{21} #leq 0.4","65 GeV < M_{Softdrop}^{PUPPI} < 105 GeV + #tau_{21}^{DDT} #leq 0.52"]
+# legend = ["65 GeV < M_{Pruned}^{CHS} < 105 GeV","65 GeV < M_{Softdrop}^{PUPPI} < 105 GeV","65 GeV < M_{Pruned}^{PUPPI} < 105 GeV","65 GeV < M_{Pruned}^{CHS} < 105 GeV + #tau_{21} #leq 0.45","65 GeV < M_{Softdrop}^{PUPPI} < 105 GeV + #tau_{21} #leq 0.4","65 GeV < M_{Pruned}^{PUPPI} < 105 GeV + #tau_{21} #leq 0.4","65 GeV < M_{Softdrop}^{PUPPI} < 105 GeV + #tau_{21}^{DDT} #leq 0.52"]
 
-markerStyle = [20,22,24,26,32]
-markerStyle = [24,25,26,20,21,22,33]
+# markerStyle = [20,22,24,26,32]
+markerStyle = [24,26,20,22,23]
 
 
 
@@ -61,7 +62,8 @@ vars = ["PT","NPV"]
 
 for var in vars:
   mg =  TMultiGraph()
-  histos = ["num%s_mj"%var,"num%s_mj_puppi"%var,"num%s_mj_puppi_pruning"%var,"num%s_mjtau21"%var,"num%s_mjtau21_puppi"%var,"num%s_mjtau21_puppi_pruning"%var,"num%s_mjDDT_puppi"%var]
+  # histos = ["num%s_mj"%var,"num%s_mj_puppi"%var,"num%s_mj_puppi_pruning"%var,"num%s_mjtau21"%var,"num%s_mjtau21_puppi"%var,"num%s_mjtau21_puppi_pruning"%var,"num%s_mjDDT_puppi"%var]
+  histos = ["num%s_mj"%var,"num%s_mj_puppi"%var,"num%s_mjtau21"%var,"num%s_mjtau21_puppi"%var,"num%s_mjDDT_puppi"%var]
   
   l = TLegend(0.1457286,0.6593264,0.3015075,0.9404145)
   l.SetTextSize(0.032)
@@ -137,4 +139,4 @@ for var in vars:
   canvas.SaveAs(cname)
   cname = "WtagSigEffvs%s.root"%var
   canvas.SaveAs(cname)
-  time.sleep(20)
+  time.sleep(5)

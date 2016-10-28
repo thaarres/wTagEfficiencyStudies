@@ -51,7 +51,7 @@ filename = "ExoDiBosonAnalysis.QCD_pTBinned_pythia8_76X.root"
 filetmp = TFile.Open(path+filename,"READ")
 
 
-legend = ["65 GeV < Pruned m_{j} < 105 GeV","65 GeV < PUPPI SD m_{j} < 105 GeV","65 GeV < Pruned m_{j} < 105 GeV + #tau_{21} #leq 0.45","65 GeV < PUPPI SD m_{j} < 105 GeV + PUPPI #tau_{21} #leq 0.4","65 GeV < PUPPI SD m_{j} < 105 GeV + DDT #leq 0.52"]
+legend = ["65 GeV < M_{Pruned}^{CHS} < 105 GeV","65 GeV < M_{Softdrop}^{PUPPI} < 105 GeV","65 GeV < M_{Pruned}^{CHS} < 105 GeV + #tau_{21} #leq 0.45","65 GeV < M_{Softdrop}^{PUPPI} < 105 GeV + #tau_{21} #leq 0.4","65 GeV < M_{Softdrop}^{PUPPI} < 105 GeV + #tau_{21}^{DDT} #leq 0.52"]
 
 markerStyle = [20,24,22,26,33]
 markerStyle = [24,26,20,22,23]
@@ -64,7 +64,7 @@ for var in vars:
   mg =  TMultiGraph()
   histos = ["num%s_mj"%var,"num%s_mj_puppi"%var,"num%s_mjtau21"%var,"num%s_mjtau21_puppi"%var,"num%s_mjDDT_puppi"%var]
   
-  l = TLegend(0.138191,0.7409326,0.3630653,0.9404145)
+  l = TLegend(0.1457286,0.6593264,0.3015075,0.9404145)
   l.SetTextSize(0.034)
   l.SetTextFont(42)
   l.SetLineColor(0)
@@ -74,7 +74,7 @@ for var in vars:
   l.SetFillColor(0)
   l.SetFillStyle(0)
   l.SetMargin(0.35)
-  addInfo = TPaveText(0.7072864,0.5472028,0.9974874,0.6643357,"NDC")
+  addInfo = TPaveText(0.7072864,0.5272028,0.9974874,0.6443357,"NDC")
   
   addInfo.SetFillColor(0)
   addInfo.SetLineColor(0)
